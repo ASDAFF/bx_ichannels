@@ -5,7 +5,7 @@ class bx_ichannels extends CModule {
 	public $MODULE_VERSION;
 	public $MODULE_VERSION_DATE;
 	public $MODULE_NAME = 'IChannels';
-	public $MODULE_DESCRIPTION = 'Exports data to iblocks from various sources';
+	public $MODULE_DESCRIPTION = 'Imports data to iblocks from various sources';
 	public $MODULE_GROUP_RIGHTS = 'Y';
 
 	public function __construct() {
