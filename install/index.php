@@ -15,15 +15,61 @@ class bx_ichannels extends CModule {
 	}
 
 	public function DoInstall() {
+		global $APPLICATION, $DB, $DBType;
+
 		RegisterModule($this->MODULE_ID);
-		CopyDirFiles($_SERVER['DOCUMENT_ROOT'] . '/bitrix/modules/bx_ichannels/install/admin', $_SERVER['DOCUMENT_ROOT'] . '/bitrix/admin');
-		RegisterModuleDependences('bx_ichannels', 'getImporters', 'bx_ichannels', 'CIChannelsRss', 'getImporter');
-		RegisterModuleDependences('bx_ichannels', 'getRssMappers', 'bx_ichannels', 'CIChannelsRssMapperDefault', 'getRssMapper');
+		
+		CopyDirFiles(
+			$_SERVER['DOCUMENT_ROOT'] . '/bitrix/modules/bx_ichannels/install/admin', 
+			$_SERVER['DOCUMENT_ROOT'] . '/bitrix/admin'
+		);
+
+		CopyDirFiles(
+			$_SERVER['DOCUMENT_ROOT'] . '/bitrix/modules/bx_ichannels/install/js', 
+			$_SERVER['DOCUMENT_ROOT'] . '/bitrix/js/bx_ichannels', 
+			/* rewrite = */true, 
+			/* recoursive = */true
+		);
+
+		RegisterModuleDependences(
+			'bx_ichannels', 
+			'getImporters', 
+			'bx_ichannels', 
+			'CIChannelsRss', 
+			'getImporter'
+		);
+
+		RegisterModuleDependences(
+			'bx_ichannels', 
+			'getRssMappers', 
+			'bx_ichannels', 
+			'CIChannelsRssMapperDefault', 
+			'getRssMapper'
+		);
+
+		$this->errors = $DB->RunSQLBatch($_SERVER['DOCUMENT_ROOT'] . '/bitrix/modules/bx_ichannels/install/db/' . $DBType . '/install.sql');
+
+		if ($this->errors) {
+			$APPLICATION->ThrowException(implode('', $this->errors));
+			return false;
+		} else {
+			return true;
+		}
 	}
 
 	public function DoUninstall() {
+		global $DB, $DBType;
+
 		COption::RemoveOption($this->MODULE_ID);
 		UnRegisterModule($this->MODULE_ID);
-		DeleteDirFiles($_SERVER['DOCUMENT_ROOT'] . '/bitrix/modules/bx_ichannels/install/admin', $_SERVER['DOCUMENT_ROOT'] . '/bitrix/admin');
+		DeleteDirFiles(
+			$_SERVER['DOCUMENT_ROOT'] . '/bitrix/modules/bx_ichannels/install/admin', 
+			$_SERVER['DOCUMENT_ROOT'] . '/bitrix/admin'
+		);
+		DeleteDirFiles(
+			$_SERVER['DOCUMENT_ROOT'] . '/bitrix/modules/bx_ichannels/install/js', 
+			$_SERVER['DOCUMENT_ROOT'] . '/bitrix/js/bx_ichannels'
+		);
+		$this->errors = $DB->RunSQLBatch($_SERVER['DOCUMENT_ROOT'] . '/bitrix/modules/bx_ichannels/install/db/' . $DBType . '/uninstall.sql');
 	}
 }

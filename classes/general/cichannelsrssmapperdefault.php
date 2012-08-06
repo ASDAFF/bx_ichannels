@@ -1,8 +1,10 @@
 <?
 class CIChannelsRssMapperDefault {
-	public function getMapper() {
+	public function getRssMapper() {
 		return array(
 			'class' => __CLASS__,
+			'name' => 'Default',
+			'id' => 'default',
 		);
 	}
 }

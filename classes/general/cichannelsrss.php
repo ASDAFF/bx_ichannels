@@ -6,6 +6,7 @@ class CIChannelsRss {
 			'name' => 'Импортировать из RSS',
 			'id' => __CLASS__,
 			'link' => '/bitrix/admin/ichannels_rss_manager.php',
+			'module' => 'bx_ichannels',
 		);
 	}
 }

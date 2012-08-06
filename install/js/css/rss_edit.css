@@ -1,0 +1,12 @@
+.strval-long {
+	width: 500px;
+}
+
+.selectval {
+	width: 300px;
+}
+
+.intval {
+	width: 100px;
+	text-align: right;
+}
