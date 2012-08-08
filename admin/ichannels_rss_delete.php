@@ -12,6 +12,10 @@ $channel = CIChannelsRssRep::GetRssChannelById($id);
 if (array_key_exists('form_id', $_POST) && $_POST['form_id'] == 'ichannels_delete_rss_channel') {
 	if ($_POST['confirm-delete'] == 'Y') {
 		$DB->Query("DELETE FROM b_ichannels_rss WHERE ID=$id");
+		CAgent::RemoveAgent(
+			sprintf('CIChannelsRssAgent::ImportFromID(%d);', $id),
+			'bx_ichannels'
+		);
 		// CAdminMessage::ShowMessage(array(
 		// 	'MESSAGE' => 'Удаление',
 		// 	'DETAIL' => 'Канал успешно удален',

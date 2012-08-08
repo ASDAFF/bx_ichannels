@@ -17,4 +17,11 @@ class CIChannels {
 	public static function getRssMappers() {
 		return static::getEventResult('getRssMappers');
 	}
+
+	public static function getRssMapperByID($id) {
+		foreach (static::getRssMappers() as $mapper) {
+			if ($mapper['id'] == $id) return $mapper;
+		}
+		return false;
+	}
 }

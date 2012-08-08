@@ -47,6 +47,14 @@ class bx_ichannels extends CModule {
 			'getRssMapper'
 		);
 
+		RegisterModuleDependences(
+			'bx_ichannels',
+			'getRssMappers',
+			'bx_ichannels',
+			'CIChannelsRssMapperConventional',
+			'getRssMapper'
+		);
+
 		$this->errors = $DB->RunSQLBatch($_SERVER['DOCUMENT_ROOT'] . '/bitrix/modules/bx_ichannels/install/db/' . $DBType . '/install.sql');
 
 		if ($this->errors) {

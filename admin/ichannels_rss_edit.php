@@ -62,6 +62,7 @@ if (array_key_exists('form_id', $_POST) && $_POST['form_id'] == 'ichannels_edit_
 				{$arSave['FREQUENCY']},
 				'{$arSave['MAPPER']}'
 			)");
+		$arSave['ID'] = $DB->LastID();
 	} else if ($arSave['ID'] > 0) {
 		$DB->Query("
 			UPDATE b_ichannels_rss
@@ -76,7 +77,24 @@ if (array_key_exists('form_id', $_POST) && $_POST['form_id'] == 'ichannels_edit_
 			WHERE
 				ID={$arSave['ID']}
 			");
+		// here we should remove agent
+		CAgent::RemoveAgent(
+			sprintf('CIChannelsRssAgent::ImportFromID(%d);', intval($arSave['ID'])),
+			'bx_ichannels'
+		);
 	}
+
+	// here we do agent
+	CAgent::AddAgent(
+		sprintf('CIChannelsRssAgent::ImportFromID(%d);', intval($arSave['ID'])),
+		'bx_ichannels',
+		'N',
+		intval($arSave['FREQUENCY']),
+		'',
+		'Y',
+		'',
+		'500'
+	);
 
 	header('Location: ichannels_rss_manager.php');
 }
@@ -177,7 +195,7 @@ $tabControl->BeginNextTab();
 		});
 	</script>
 	<? endif; ?>
-	
+
 	<script type="text/javascript" src="/bitrix/js/bx_ichannels/select_iblock.js"></script>
 
 	<tr class="heading">
@@ -194,7 +212,7 @@ $tabControl->BeginNextTab();
 		<td>
 			<select id="select-mapper" name="select-mapper" class="selectval" value="<?=$default['MAPPER']?>">
 				<? foreach (CIChannels::getRssMappers() as $mapper): ?>
-					<option id="<?=$mapper['id']?>"><?=$mapper['name']?></option>
+					<option value="<?=$mapper['id']?>"><?=$mapper['name']?></option>
 				<? endforeach; ?>
 			</select>
 		</td>
