@@ -9,4 +9,4 @@ create table if not exists b_ichannels_rss
 	FREQUENCY int(7) not null,
 	MAPPER varchar(255) not null,
 	primary key (ID)
-);
+) CHARACTER SET cp1251 COLLATE cp1251_general_ci;

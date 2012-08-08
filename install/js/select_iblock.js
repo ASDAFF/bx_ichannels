@@ -1,25 +1,23 @@
-;(function(){
+var ichannels = (function() {
 
-	$.ajaxSetup({
-		url: '/bitrix/admin/ichannels_iblock.php',
-		type: 'POST',
-	});
+	function update_types() {
+		$.ajax({
+			data: {
+				query: 'type',
+			},
+			success: function(result) {
+				$('#select-type')
+				.append(result)
+				.change();
+			}
+		});
+	}
 
-	$.ajax({
-		data: {
-			query: 'type',
-		},
-		success: function(result) {
-			$('#select-type').append(result);
-		}
-	});
-
-	$('#select-type')
-	.on('change', function() {
+	function update_iblocks() {
 		$.ajax({
 			data: {
 				query: 'iblock',
-				iblock_type: $(this).val()
+				iblock_type: $('#select-type').val()
 			},
 			success: function(result) {
 				$('#select-iblock')
@@ -27,14 +25,13 @@
 				.change();
 			}
 		});
-	});
+	}
 
-	$('#select-iblock')
-	.on('change', function() {
+	function update_sections() {
 		$.ajax({
 			data: {
 				query: 'section',
-				iblock: $(this).val()
+				iblock: $('#select-iblock').val()
 			},
 			success: function(result) {
 				$('#select-section')
@@ -42,6 +39,33 @@
 				.change();
 			}
 		});
+	}
+
+	return {
+		update_types: update_types,
+		update_iblocks: update_iblocks,
+		update_sections: update_sections,
+	};
+
+})();
+
+;(function(){
+
+	$.ajaxSetup({
+		url: '/bitrix/admin/ichannels_iblock.php',
+		type: 'POST',
+	});
+
+	ichannels.update_types();
+
+	$('#select-type')
+	.on('change', function() {
+		ichannels.update_iblocks();
+	});
+
+	$('#select-iblock')
+	.on('change', function() {
+		ichannels.update_sections();
 	});
 
 })();

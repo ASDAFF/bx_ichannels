@@ -31,10 +31,17 @@ function getTypesFormatted() {
 
 function getIBlocksFormatted() {
 	$out = '';
+
+	$type = filter_input(INPUT_POST, 'iblock_type', FILTER_SANITIZE_STRING);
+
+	if ($type == 'notype') {
+		return $out;
+	}
+
 	$rResult = CIBlock::GetList(
 		array('SORT' => 'ASC'),
 		array(
-			'TYPE' => filter_input(INPUT_POST, 'iblock_type', FILTER_SANITIZE_STRING),
+			'TYPE' => $type,
 			'ACTIVE' => 'Y',
 		)
 	);
@@ -45,7 +52,7 @@ function getIBlocksFormatted() {
 }
 
 function getSectionsFormatted() {
-	$out = '<option id="0">.Корневой каталог</option>';
+	$out = '<option value="0">.Корневой каталог</option>';
 	$rResult = CIBlockSection::GetList(
 		array('SORT' => 'ASC'),
 		array(

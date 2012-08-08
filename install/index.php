@@ -70,6 +70,7 @@ class bx_ichannels extends CModule {
 			$_SERVER['DOCUMENT_ROOT'] . '/bitrix/modules/bx_ichannels/install/js', 
 			$_SERVER['DOCUMENT_ROOT'] . '/bitrix/js/bx_ichannels'
 		);
-		$this->errors = $DB->RunSQLBatch($_SERVER['DOCUMENT_ROOT'] . '/bitrix/modules/bx_ichannels/install/db/' . $DBType . '/uninstall.sql');
+		// next line commented for development, uncomment it for production
+		// $this->errors = $DB->RunSQLBatch($_SERVER['DOCUMENT_ROOT'] . '/bitrix/modules/bx_ichannels/install/db/' . $DBType . '/uninstall.sql');
 	}
 }

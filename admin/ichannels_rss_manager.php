@@ -16,25 +16,40 @@ $lAdmin->AddHeaders(array(
 		'content' => 'Имя',
 		'default' => true,
 	),
+	// array(
+	// 	'id' => 'iblock_type',
+	// 	'content' => 'Тип инфоблока',
+	// 	'default' => true,
+	// ),
+	// array(
+	// 	'id' => 'iblock',
+	// 	'content' => 'Инфоблок',
+	// 	'default' => true,
+	// ),
+	// array(
+	// 	'id' => 'section',
+	// 	'content' => 'Раздел',
+	// 	'default' => true,
+	// ),
 	array(
-		'id' => 'iblock_type',
-		'content' => 'Тип инфоблока',
-		'default' => true,
-	),
-	array(
-		'id' => 'iblock',
-		'content' => 'Инфоблок',
-		'default' => true,
-	),
-	array(
-		'id' => 'section',
-		'content' => 'Раздел',
+		'id' => 'url',
+		'content' => 'url',
 		'default' => true,
 	),
 ));
 
-
-
+foreach (CIChannelsRssRep::GetRssChannels() as $channel) {
+	$row = $lAdmin->AddRow($channel['ID'], $channel);
+	$row->AddViewField(
+		'name', 
+		sprintf(
+			'<a href="ichannels_rss_edit.php?id=%s">%s</a>',
+			$channel['ID'],
+			$channel['NAME']
+		)
+	);
+	$row->AddViewField('url', $channel['URL']);
+}
 
 $aContext = array(
 	array(
@@ -44,13 +59,6 @@ $aContext = array(
 	),
 );
 $lAdmin->AddAdminContextMenu($aContext, false, false);
-
-
-
-
-
-
-
 
 
 $lAdmin->Display();
