@@ -4,7 +4,7 @@ class CIChannelsRssMapperDefault {
 	public function getRssMapper() {
 		return array(
 			'class' => __CLASS__,
-			'name' => 'Default',
+			'name' => 'По умолчанию',
 			'id' => 'default',
 			'method' => 'map',
 		);

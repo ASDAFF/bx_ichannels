@@ -11,6 +11,10 @@ class CIChannelsRssMapperConventional {
 	}
 
 	public static function map($arItem) {
-		//
+		$arFields = array();
+		$arFields['NAME'] = $arItem['title'];
+		$arFields['PREVIEW_TEXT'] = $arItem['description'];
+		$arFields['PROPERTY_VALUES']['LINK'] = $arItem['link'];
+		return $arFields;
 	}
 }

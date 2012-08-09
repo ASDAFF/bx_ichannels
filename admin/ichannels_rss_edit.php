@@ -210,11 +210,19 @@ $tabControl->BeginNextTab();
 	<tr>
 		<td><label for="select-mapper">Обработчик полей</label></td>
 		<td>
-			<select id="select-mapper" name="select-mapper" class="selectval" value="<?=$default['MAPPER']?>">
+			<select id="select-mapper" name="select-mapper" class="selectval">
 				<? foreach (CIChannels::getRssMappers() as $mapper): ?>
 					<option value="<?=$mapper['id']?>"><?=$mapper['name']?></option>
 				<? endforeach; ?>
 			</select>
+
+			<? if (!$new): ?>
+			<script type="text/javascript">
+				$('#select-mapper')
+				.val("<?=$default['MAPPER']?>");
+			</script>
+			<? endif; ?>
+
 		</td>
 	</tr>
 
