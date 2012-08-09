@@ -12,6 +12,11 @@ class CIChannelsRssMapperByLink {
 
 	public static function map($arItem, $arChannel = array()) {
 
+		if (!self::checkLinkField($arChannel['IBLOCK_ID'])) {
+			$link_field = self::addLinkField($arChannel['IBLOCK_ID']);
+			if ($link_field === false) return false;
+		}
+
 		if (self::checkExistsByLink($arItem, $arChannel)) return false;
 
 		$arFields = array();
@@ -39,5 +44,35 @@ class CIChannelsRssMapperByLink {
 		while (false !== ($element = $rResult->GetNext())) {
 			return true;
 		}
+	}
+
+	public static function checkLinkField($iblock_id) {
+		$rResult = CIBlockProperty::GetList(
+			array('SORT' => 'ASC'),
+			array(
+				'IBLOCK_ID' => $iblock_id,
+				'CODE' => 'LINK',
+				'ACTIVE' => 'Y',
+			)
+		);
+		$arResult = array();
+		while (false != ($property = $rResult->GetNext())) {
+			$arResult[] = $property;
+		}
+		return !empty($arResult);
+	}
+
+	public static function addLinkField($iblock_id) {
+		$iblock_property = new CIBlockProperty;
+		return $iblock_property->Add(
+			array(
+				'NAME' => '—сылка',
+				'ACTIVE' => 'Y',
+				'SORT' => 500,
+				'CODE' => 'LINK',
+				'PROPERTY_TYPE' => 'S',
+				'IBLOCK_ID' => $iblock_id,
+			)
+		);
 	}
 }
