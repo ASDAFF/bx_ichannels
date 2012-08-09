@@ -40,18 +40,10 @@ class bx_ichannels extends CModule {
 		);
 
 		RegisterModuleDependences(
-			'bx_ichannels', 
-			'getRssMappers', 
-			'bx_ichannels', 
-			'CIChannelsRssMapperDefault', 
-			'getRssMapper'
-		);
-
-		RegisterModuleDependences(
 			'bx_ichannels',
 			'getRssMappers',
 			'bx_ichannels',
-			'CIChannelsRssMapperConventional',
+			'CIChannelsRssMapperByLink',
 			'getRssMapper'
 		);
 
@@ -78,7 +70,23 @@ class bx_ichannels extends CModule {
 			$_SERVER['DOCUMENT_ROOT'] . '/bitrix/modules/bx_ichannels/install/js', 
 			$_SERVER['DOCUMENT_ROOT'] . '/bitrix/js/bx_ichannels'
 		);
-		// next line commented for development, uncomment it for production
-		// $this->errors = $DB->RunSQLBatch($_SERVER['DOCUMENT_ROOT'] . '/bitrix/modules/bx_ichannels/install/db/' . $DBType . '/uninstall.sql');
+
+		UnRegisterModuleDependences(
+			'bx_ichannels', 
+			'getImporters', 
+			'bx_ichannels', 
+			'CIChannelsRss', 
+			'getImporter'
+		);
+
+		UnRegisterModuleDependences(
+			'bx_ichannels',
+			'getRssMappers',
+			'bx_ichannels',
+			'CIChannelsRssMapperByLink',
+			'getRssMapper'
+		);
+
+		$this->errors = $DB->RunSQLBatch($_SERVER['DOCUMENT_ROOT'] . '/bitrix/modules/bx_ichannels/install/db/' . $DBType . '/uninstall.sql');
 	}
 }

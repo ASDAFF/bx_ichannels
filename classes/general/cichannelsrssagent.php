@@ -30,16 +30,16 @@ class CIChannelsRssAgent {
 		$ins = new $mapper['class'];
 
 		foreach ($arChannel['item'] as $item) {
-			$arFields = $ins->{$mapper['method']}($item);
+			$arFields = $ins->{$mapper['method']}($item, $channel);
+			if (empty ($arFields)) continue;
+
+			$arFields['ACTIVE'] = 'Y';
 			$arFields['IBLOCK_TYPE_ID'] = $channel['IBLOCK_TYPE_ID'];
 			$arFields['IBLOCK_ID'] = $channel['IBLOCK_ID'];
 
 			if ($channel['IBLOCK_SECTION_ID'] != '0') {
 				$arFields['IBLOCK_SECTION_ID'] = $channel['IBLOCK_SECTION_ID'];
 			}
-
-			$arFields['ACTIVE'] = 'Y';
-			$arFields['MODIFIED_BY'] = 1;
 
 			$iblockElement = new CIBlockElement();
 			$iNewElementID = $iblockElement->Add($arFields);

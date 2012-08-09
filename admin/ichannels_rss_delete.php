@@ -16,12 +16,6 @@ if (array_key_exists('form_id', $_POST) && $_POST['form_id'] == 'ichannels_delet
 			sprintf('CIChannelsRssAgent::ImportFromID(%d);', $id),
 			'bx_ichannels'
 		);
-		// CAdminMessage::ShowMessage(array(
-		// 	'MESSAGE' => 'Удаление',
-		// 	'DETAIL' => 'Канал успешно удален',
-		// 	'TYPE' => 'OK',
-		// 	'HTML' => false,
-		// ));
 		header('Location: ichannels_rss_manager.php');
 	}
 }
